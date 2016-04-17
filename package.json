@@ -1,6 +1,13 @@
 {
   "name": "my-notes-ws",
   "version": "1.0.0",
+  "description": "OpenShift Sample Application",
+  "author": {
+    "name": "OpenShift",
+    "email": "ramr@example.org",
+    "url": "http://www.openshift.com/"
+  },
+  "private": true,
   "scripts": {
   "start": "node server.js"
   },
