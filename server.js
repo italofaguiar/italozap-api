@@ -19,10 +19,10 @@ app.use(cors(corsOptions));
 
 app.use('/notes', require('./controllers/notes'));
 
-var port = Number(process.env.PORT || 8200);
+// var port = Number(process.env.PORT || 8200);
 
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-var port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var port      = process.env.OPENSHIFT_NODEJS_PORT || 8200;
 
 var mongodbUrl = 'mongodb://italofaguiar:123456@ds017070.mlab.com:17070/notasitalo';
 

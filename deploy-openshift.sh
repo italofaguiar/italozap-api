@@ -13,18 +13,18 @@ git add .
 
 
 echo
-echo "------------------------- git commit -m \"$1\"  ------------------------"
+echo "------------------------- git commit -a -m \"$1\"  ------------------------"
 echo
 git commit -a -m "$1"
 
 
 echo
-echo "------------------------- git push heroku master  ------------------------"
+echo "------------------------- git push   ------------------------"
 echo
 git push
 
 
 echo
-echo "------------------------- heroku logs --tail  ------------------------"
+echo "------------------------- rhc tail mynotesws  ------------------------"
 echo
 rhc tail mynotesws
