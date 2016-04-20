@@ -19,6 +19,10 @@ app.use(cors(corsOptions));
 
 app.use('/notes', require('./controllers/notes'));
 
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/index.html');
+});
+
 // var port = Number(process.env.PORT || 8200);
 
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
