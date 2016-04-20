@@ -41,6 +41,8 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
         process.env.OPENSHIFT_APP_NAME;
 }
 
+console.log("conectando no mongo: " + mongodbUrl);
+
 db.connect('mongodb://' + mongodbUrl, function (err) {
     if (err) {
         console.log('Unable to connect to Mongo.');
