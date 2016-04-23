@@ -17,6 +17,9 @@
     "cors": "^2.7.1",
     "crypto": "0.0.3",
     "express": "^4.13.1",
-    "mongodb": "^2.1.16"
+    "mongodb": "^2.1.16",
+    "express-jwt": "^3.3.0",
+    "express-unless": "^0.3.0",
+    "jsonwebtoken": "^5.4.1"
   }
 }

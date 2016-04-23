@@ -2,7 +2,7 @@ var express = require('express');
 var NoteModel = require('../models/notes');
 var router = express.Router();
 
-router.get('/', function (request, response, next) {
+router.get('/', function (request, response) {
     NoteModel.list(function (err, result) {
         response.json(result);
     });

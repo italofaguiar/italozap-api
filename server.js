@@ -1,38 +1,32 @@
 var express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser');
-var db = require('./config/mongodb')
+var db = require('./config/mongodb');
+var expressJwt = require('express-jwt');
+var unless = require('express-unless');
+
 var app = express();
 
 app.set('etag', false);
 app.use(bodyParser.json());
 
-var corsOptions = {
-    origin: 'https://notas-italo-backend.herokuapp.com/notes/'
-};
-app.use(cors(corsOptions));
-//app.use(function(req, res, next) {
-//    res.header("Access-Control-Allow-Origin", "*");
-//    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//    next();
-//});
-
+// TODO: acabar com essa redundancia do jwt_secret
+var JWT_SECRET = 'top-secret';
+app.use(expressJwt({secret: JWT_SECRET}).unless({path: ['/authenticate']}));
+app.use('/authenticate', require('./controllers/user'));
 app.use('/notes', require('./controllers/notes'));
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-// var port = Number(process.env.PORT || 8200);
-
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port      = process.env.OPENSHIFT_NODEJS_PORT || 8300;
 
 //var mongodbUrl = 'mongodb://italofaguiar:123456@ds017070.mlab.com:17070/notasitalo';
 
-// default to a 'localhost' configuration:
 var mongodbUrl = '127.0.0.1:27017/notasitalo';
-// if OPENSHIFT env variables are present, use the available connection info:
+
 if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
     mongodbUrl = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
         process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
