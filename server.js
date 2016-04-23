@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 // TODO: acabar com essa redundancia do jwt_secret
 var JWT_SECRET = 'top-secret';
-app.use(expressJwt({secret: JWT_SECRET}).unless({path: ['/authenticate', '/authenticate/signup']}));
+app.use(expressJwt({secret: JWT_SECRET}).unless({path: ['/authenticate', '/authenticate/signup', '/']}));
 app.use('/authenticate', require('./controllers/user'));
 app.use('/notes', require('./controllers/notes'));
 
