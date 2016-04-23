@@ -20,4 +20,19 @@ router.post('/', function (request, response) {
     });
 });
 
+router.post('/signup', function (request, response) {
+    var user = request.body.user;
+    var password = request.body.password;
+
+    UserModel.create(user, password, function (err, userId) {
+        if (userId) {
+            response.json({
+                token: jwt.sign({}, JWT_SECRET, {subject: userId})
+            });
+        } else {
+            response.sendStatus(401);
+        }
+    });
+});
+
 module.exports = router;
