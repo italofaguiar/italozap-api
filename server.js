@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 // TODO: acabar com essa redundancia do jwt_secret
 var JWT_SECRET = 'top-secret';
-app.use(expressJwt({secret: JWT_SECRET}).unless({path: ['/authenticate']}));
+app.use(expressJwt({secret: JWT_SECRET}).unless({path: ['/authenticate', '/authenticate/signup']}));
 app.use('/authenticate', require('./controllers/user'));
 app.use('/notes', require('./controllers/notes'));
 
@@ -21,6 +21,8 @@ app.get('/', function(req, res){
 });
 
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+//var ipaddress = '192.168.0.20';
+
 var port      = process.env.OPENSHIFT_NODEJS_PORT || 8300;
 
 //var mongodbUrl = 'mongodb://italofaguiar:123456@ds017070.mlab.com:17070/notasitalo';
