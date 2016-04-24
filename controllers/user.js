@@ -5,7 +5,7 @@ var router = express.Router();
 
 var JWT_SECRET = 'top-secret';
 
-router.post('/', function (request, response) {
+router.post('/', function (request, response, next) {
     var user = request.body.user;
     var password = request.body.password;
 
@@ -20,7 +20,7 @@ router.post('/', function (request, response) {
     });
 });
 
-router.post('/signup', function (request, response) {
+router.post('/signup', function (request, response, next) {
     var user = request.body.user;
     var password = request.body.password;
 

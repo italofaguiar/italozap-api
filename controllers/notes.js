@@ -2,13 +2,13 @@ var express = require('express');
 var NoteModel = require('../models/notes');
 var router = express.Router();
 
-router.get('/', function (request, response) {
+router.get('/', function (request, response, next) {
     NoteModel.list(function (err, result) {
         response.json(result);
     });
 });
 
-router.get('/:noteId', function (request, response) {
+router.get('/:noteId', function (request, response, next) {
 
     NoteModel.get(request.params.noteId, function (err, result) {
         if (result) {
@@ -19,14 +19,14 @@ router.get('/:noteId', function (request, response) {
     });
 });
 
-router.post('/', function (request, response) {
+router.post('/', function (request, response, next) {
     var noteId = NoteModel.addNew(request.body, function (err, result) {
         response.set('Location', '/' + noteId);
         response.status(201).send();
     })
 });
 
-router.put('/:noteId', function (request, response) {
+router.put('/:noteId', function (request, response, next) {
 
     if (request.params.noteId !== request.body._id) {
         response.status(400).send('URL does not match request body');
@@ -40,7 +40,7 @@ router.put('/:noteId', function (request, response) {
     });
 });
 
-router.delete('/:noteId', function (request, response) {
+router.delete('/:noteId', function (request, response, next) {
     var noteId = request.params.noteId;
 
     if(noteId == 'all') {

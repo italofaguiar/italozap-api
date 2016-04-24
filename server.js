@@ -9,6 +9,7 @@ var app = express();
 
 app.set('etag', false);
 app.use(bodyParser.json());
+app.use(cors());
 
 // TODO: acabar com essa redundancia do jwt_secret
 var JWT_SECRET = 'top-secret';
@@ -16,20 +17,20 @@ app.use(expressJwt({secret: JWT_SECRET}).unless({path: ['/authenticate', '/authe
 app.use('/authenticate', require('./controllers/user'));
 app.use('/notes', require('./controllers/notes'));
 
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+app.get('/', function (req, res, next) {
+    res.sendFile(__dirname + '/index.html');
 });
 
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 //var ipaddress = '192.168.0.20';
 
-var port      = process.env.OPENSHIFT_NODEJS_PORT || 8300;
+var port = process.env.OPENSHIFT_NODEJS_PORT || 8300;
 
 //var mongodbUrl = 'mongodb://italofaguiar:123456@ds017070.mlab.com:17070/notasitalo';
 
 var mongodbUrl = '127.0.0.1:27017/notasitalo';
 
-if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
+if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
     mongodbUrl = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
         process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
         process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
