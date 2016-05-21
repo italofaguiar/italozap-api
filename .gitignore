@@ -1,0 +1,11 @@
+# Specifies intentionally untracked files to ignore when using Git
+# http://git-scm.com/docs/gitignore
+
+# para remover só do repositorio mas manter o local
+# git rm --cached -r .idea/
+# tb existe uma alternativa com --kep-local, mas n entendi bem a diferenca
+
+node_modules/
+platforms/
+plugins/
+.idea
