@@ -15,13 +15,13 @@ app.use(cors());
 var JWT_SECRET = 'top-secret';
 app.use(expressJwt({secret: JWT_SECRET}).unless({path: ['/authenticate', '/authenticate/signup', '/']}));
 app.use('/authenticate', require('./controllers/user'));
-app.use('/notes', require('./controllers/notes'));
+app.use('/rooms', require('./controllers/notes'));
 
 app.get('/', function (req, res, next) {
     res.sendFile(__dirname + '/index.html');
 });
 
-var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 //var ipaddress = '192.168.0.20';
 
 var port = process.env.OPENSHIFT_NODEJS_PORT || 8300;
