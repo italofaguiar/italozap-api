@@ -26,6 +26,17 @@ router.post('/', function (request, response, next) {
     })
 });
 
+router.post('/:noteId/pushMessage', function (request, response, next) {
+    NoteModel.pushMessage(request.params.noteId, request.body, function (err, result) {
+
+        if (err) {
+            response.status(404).send('No such note: ' + request.params.noteId);
+        } else {
+            response.status(204).send('Notes updated: ' + result.modifiedCount);
+        }
+    });
+});
+
 router.put('/:noteId', function (request, response, next) {
 
     if (request.params.noteId !== request.body._id) {

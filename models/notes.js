@@ -44,6 +44,23 @@ exports.update = function (note, callback) {
         });
 };
 
+exports.pushMessage = function (noteId, message, callback) {
+    var notes = db.get().collection('notes');
+
+    notes.updateOne({"_id": ObjectId(noteId)},
+        {
+            $push: {
+                messages: {
+                    "user": message.user,
+                    "text": message.text
+                }
+            }
+        },
+        function (err, result) {
+            callback(err, result);
+        });
+};
+
 exports.remove = function (noteId, callback) {
 
     var notes = db.get().collection('notes');

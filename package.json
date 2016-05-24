@@ -9,17 +9,18 @@
   },
   "private": true,
   "scripts": {
-  "start": "node server.js"
+    "start": "node server.js"
   },
   "main": "server.js",
-  "dependencies": { 
+  "dependencies": {
     "body-parser": "^1.13.2",
     "cors": "^2.7.1",
     "crypto": "0.0.3",
     "express": "^4.13.1",
-    "mongodb": "^2.1.16",
     "express-jwt": "^3.3.0",
     "express-unless": "^0.3.0",
-    "jsonwebtoken": "^5.4.1"
+    "jsonwebtoken": "^5.4.1",
+    "mongodb": "^2.1.16",
+    "socket.io": "^1.4.6"
   }
 }
