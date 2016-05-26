@@ -44,9 +44,21 @@ db.connect('mongodb://' + mongodbUrl, function (err) {
 
         io.on('connection', function (socket) {
 
-            var user = socket.user || {};
-            var roomId = socket.roomId || {};
+            var user = {};
+            var roomId = {};
 
+            function logOpenSockets() {
+                console.log('\n------ Sockets abertos: -------')
+                for (var hash in io.sockets.sockets) {
+                    console.log('{ip: ' + io.sockets.sockets[hash].client.conn.remoteAddress + ', id: ' + io.sockets.sockets[hash].client.conn.id + '}');
+                }
+                console.log('---------------------------------\n')
+            }
+
+            console.log('+++++++ NOVA CONEXAO: {ip: ' + socket.client.conn.remoteAddress + ', id: ' + socket.client.conn.id + '}');
+
+            logOpenSockets();
+            
             socket.on('room entered', function (roomUser) {
                 user = socket.user = roomUser.user;
                 roomId = socket.roomId = roomUser.roomId;
@@ -55,18 +67,13 @@ db.connect('mongodb://' + mongodbUrl, function (err) {
                     {
                         text: "Usuario " + user + " entrou na sala..."
                     });
+
+                console.log(user + ' entrou na sala ' + roomId);
             });
 
             socket.on('chat message', function (message) {
                 io.to(roomId).emit('chat message', message);
-            });
-            
-            socket.on('room left', function () {
-                socket.leave(roomId);
-                io.to(roomId).emit('chat message',
-                    {
-                        text: "Usuario " + user + " deixou na sala..."
-                    });
+                console.log(user + ' falou [' + message.text + '] na sala ' + roomId);
             });
 
             socket.on('disconnect', function () {
@@ -74,6 +81,8 @@ db.connect('mongodb://' + mongodbUrl, function (err) {
                     {
                         text: "Usuario " + user + " deixou na sala..."
                     });
+                console.log('-xxxx-  DISCONNECTING: {user: '+ user + ', ip: ' + socket.client.conn.remoteAddress + ', id: ' + socket.client.conn.id + '}');
+                logOpenSockets();
             });
 
         });
