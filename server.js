@@ -43,17 +43,36 @@ db.connect('mongodb://' + mongodbUrl, function (err) {
         });
 
         io.on('connection', function (socket) {
-            socket.on('chat message', function (roomMessage) {
-                io.to(roomMessage.roomId).emit('chat message', roomMessage.message);
-            });
+
+            var user = socket.user || {};
+            var roomId = socket.roomId || {};
 
             socket.on('room entered', function (roomUser) {
-                var roomId = roomUser.roomId;
+                user = socket.user = roomUser.user;
+                roomId = socket.roomId = roomUser.roomId;
                 socket.join(roomId);
                 socket.broadcast.to(roomId).emit('chat message',
                     {
-                        user: "ADM",
-                        text: "Usuario " + roomUser.user + " entrou na sala..."
+                        text: "Usuario " + user + " entrou na sala..."
+                    });
+            });
+
+            socket.on('chat message', function (message) {
+                io.to(roomId).emit('chat message', message);
+            });
+            
+            socket.on('room left', function () {
+                socket.leave(roomId);
+                io.to(roomId).emit('chat message',
+                    {
+                        text: "Usuario " + user + " deixou na sala..."
+                    });
+            });
+
+            socket.on('disconnect', function () {
+                io.to(roomId).emit('chat message',
+                    {
+                        text: "Usuario " + user + " deixou na sala..."
                     });
             });
 
