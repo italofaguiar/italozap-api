@@ -76,11 +76,16 @@ db.connect('mongodb://' + mongodbUrl, function (err) {
                 console.log(user + ' falou [' + message.text + '] na sala ' + roomId);
             });
 
+            socket.on('typing', function () {
+                socket.broadcast.to(roomId).emit('typing', user);
+            });
+
+            socket.on('stop typing', function () {
+                socket.broadcast.to(roomId).emit('stop typing', user);
+            });
+            
             socket.on('disconnect', function () {
-                io.to(roomId).emit('chat message',
-                    {
-                        text: "Usuario " + user + " deixou na sala..."
-                    });
+                io.to(roomId).emit('chat message', {text: "Usuario " + user + " deixou na sala..."});
                 console.log('-xxxx-  DISCONNECTING: {user: '+ user + ', ip: ' + socket.client.conn.remoteAddress + ', id: ' + socket.client.conn.id + '}');
                 logOpenSockets();
             });
